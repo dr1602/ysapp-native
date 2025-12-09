@@ -1,6 +1,6 @@
 import { config } from '../../config/config';
 
-export const getApiData = async (url: string) => {
+export const apiFetch = async (url: string) => {
   const response = await fetch(`${url}`, {
     headers: {
       Authorization: config.liveLinkCredentials,
