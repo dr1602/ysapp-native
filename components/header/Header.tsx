@@ -1,0 +1,37 @@
+import { Image, StyleSheet, View } from 'react-native';
+
+import { sizes } from '@/src/resources/constants';
+
+export const Header = () => {
+  return (
+    <View style={styles.container}>
+      <Image style={styles.logo} source={{ uri: '@/assets/header/logo.png' }} />
+      <Image
+        style={styles.cartBtn}
+        source={{ uri: '@/assets/header/cart-icon.png' }}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    height: sizes.headerHeight,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 8,
+  },
+  arrowIcon: {
+    width: 25,
+    height: 21,
+  },
+  logo: {
+    width: 96,
+    height: 17,
+  },
+  cartBtn: {
+    width: 25,
+    height: 25,
+  },
+});
