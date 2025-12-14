@@ -11,4 +11,16 @@ export type ItemType = {
 
 export interface ProductItemProps {
   item: ItemType;
+  navigation: any;
+}
+
+export type RouteType = {
+  name: string;
+  price: number;
+  description: string;
+  images: ImageType[];
+};
+
+export interface ProductDetailsScreenProps {
+  route: RouteType;
 }
