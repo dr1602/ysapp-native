@@ -1,23 +1,36 @@
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import { ProductItemProps } from '@/constants/types/ProductTypes';
 import { config } from '@/src/config/config';
 import { colors } from '@/src/resources/constants';
 
-export const ProductItem = ({ item }: ProductItemProps) => {
+export const ProductItem = ({ item, navigation }: ProductItemProps) => {
   const { id, name, price, images } = item;
+
+  const handlePress = () => {
+    navigation.navigate('Product Details', { product: item });
+  };
   return (
     <View key={id} style={styles.itemContainer}>
-      <Image
-        resizeMode='cover'
-        style={styles.itemImage}
-        source={{
-          uri: images[0].src,
-          headers: {
-            Authorization: config.liveLinkCredentials,
-          },
-        }}
-      />
+      <Pressable onPress={handlePress}>
+        <Image
+          resizeMode='cover'
+          style={styles.itemImage}
+          source={{
+            uri: images[0].src,
+            headers: {
+              Authorization: config.liveLinkCredentials,
+            },
+          }}
+        />
+      </Pressable>
       <View style={styles.itemData}>
         <View style={styles.itemData}>
           <Text style={styles.itemPrice}>{`$ ${item.price}`}</Text>
