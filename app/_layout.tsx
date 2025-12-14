@@ -1,5 +1,6 @@
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { GlobalState } from '@/src/context/GlobalState';
 
@@ -9,8 +10,12 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   return (
-    <GlobalState>
-      <Text> Hola Mundo</Text>
-    </GlobalState>
+    <SafeAreaProvider>
+      <GlobalState>
+        <View>
+          <Text> Hola Mundo</Text>
+        </View>
+      </GlobalState>
+    </SafeAreaProvider>
   );
 }
