@@ -9,6 +9,7 @@ const defaultStoreContextValue: StoreContextType = {
   deleteProduct: (productId: any) => {},
   cartPrice: 0,
   updateCartPrice: () => {},
+  thisProductIsInCart: (productId: any) => {},
 };
 
 export const StoreContext = createContext<StoreContextType>(

@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StoreContext } from '@/src/context/storeContext';
 import { colors, sizes } from '@/src/resources/constants';
 import { Header } from '../header/Header';
+import { ProductInCart } from './ProductInCart';
 
 export const CartScreen = () => {
   const { cart, cartPrice } = useContext(StoreContext);
@@ -21,7 +22,7 @@ export const CartScreen = () => {
       <FlatList
         style={styles.productsContainer}
         data={cart}
-        renderItem={(item: any) => <Text>{item.text}</Text>}
+        renderItem={(item: any) => <ProductInCart item={item} />}
       />
       <View style={styles.resumeContainer}>
         <Text style={styles.resumeText}>Total</Text>
