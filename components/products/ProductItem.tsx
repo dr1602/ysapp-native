@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -9,14 +10,38 @@ import {
 
 import { ProductItemProps } from '@/constants/types/ProductTypes';
 import { config } from '@/src/config/config';
+import { StoreContext } from '@/src/context/storeContext';
 import { colors } from '@/src/resources/constants';
 
 export const ProductItem = ({ item, navigation }: ProductItemProps) => {
+  const [productButtonIcon, setProductButtonIcon] = useState<string>('');
   const { id, name, price, images } = item;
+  const { cart, thisProductIsInCart, deleteProduct, addProduct } =
+    useContext(StoreContext);
+
+  const addIcon: string = '@/assets/product/add-to-cart-icon.png';
+  const deleteIcon: string = '@/assets/product/remove-from-cart-icon.png';
 
   const handlePress = () => {
     navigation.navigate('Product Details', { product: item });
   };
+
+  const handlePressProductButton = () => {
+    if (thisProductIsInCart && thisProductIsInCart(Number(id))) {
+      deleteProduct(Number(id));
+    } else {
+      addProduct(item);
+    }
+  };
+
+  useEffect(() => {
+    if (thisProductIsInCart && thisProductIsInCart(Number(id))) {
+      setProductButtonIcon(deleteIcon);
+    } else {
+      setProductButtonIcon(addIcon);
+    }
+  }, [setProductButtonIcon, thisProductIsInCart, id]);
+
   return (
     <View key={id} style={styles.itemContainer}>
       <Pressable onPress={handlePress}>
@@ -33,9 +58,15 @@ export const ProductItem = ({ item, navigation }: ProductItemProps) => {
       </Pressable>
       <View style={styles.itemData}>
         <View style={styles.itemData}>
-          <Text style={styles.itemPrice}>{`$ ${item.price}`}</Text>
-          <Text style={styles.itemTitle}>{item.name}</Text>
+          <Text style={styles.itemPrice}>{`$ ${price}`}</Text>
+          <Text style={styles.itemTitle}>{name}</Text>
         </View>
+        <Pressable onPress={handlePressProductButton}>
+          <Image
+            style={styles.productBtn}
+            source={{ uri: productButtonIcon }}
+          />
+        </Pressable>
       </View>
     </View>
   );

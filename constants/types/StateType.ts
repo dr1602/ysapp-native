@@ -8,4 +8,5 @@ export interface StoreContextType {
   cartPrice: number;
   updateCartPrice?: () => void;
   setCart?: (newCart: ItemType[]) => void;
+  thisProductIsInCart?: (productId: number) => void;
 }

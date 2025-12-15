@@ -45,6 +45,9 @@ export const GlobalState = ({ children }: GlobalStateProps) => {
     }
   };
 
+  const thisProductIsInCart = (productId: any) =>
+    store.cart.findIndex((product) => product.id === productId) >= 0;
+
   const updateCartPrice = () => {
     let newCartPrice: number = 0;
 
@@ -90,6 +93,7 @@ export const GlobalState = ({ children }: GlobalStateProps) => {
         addProduct,
         deleteProduct,
         cartPrice: store.cartPrice,
+        thisProductIsInCart,
       }}
     >
       {children}
