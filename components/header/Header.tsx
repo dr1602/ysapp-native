@@ -6,14 +6,18 @@ import { sizes } from '@/src/resources/constants';
 
 export const Header = ({ route, navigation }: HeaderProps) => {
   const isProductScreen: boolean = route.name === 'Products';
-  const handlePress = () => {
+  const handlePressBack = () => {
     navigation.goBack();
+  };
+
+  const handlePressCart = () => {
+    navigation.navigate('Cart');
   };
 
   return (
     <View style={styles.container}>
       <When condition={!isProductScreen}>
-        <Pressable onPress={handlePress}>
+        <Pressable onPress={handlePressBack}>
           <Image
             style={styles.arrowIcon}
             source={{ uri: '@/assets//header/go-back-icon.png' }}
@@ -21,10 +25,12 @@ export const Header = ({ route, navigation }: HeaderProps) => {
         </Pressable>
       </When>
       <Image style={styles.logo} source={{ uri: '@/assets/header/logo.png' }} />
-      <Image
-        style={styles.cartBtn}
-        source={{ uri: '@/assets/header/cart-icon.png' }}
-      />
+      <Pressable onPress={handlePressCart}>
+        <Image
+          style={styles.cartBtn}
+          source={{ uri: '@/assets/header/cart-icon.png' }}
+        />
+      </Pressable>
     </View>
   );
 };

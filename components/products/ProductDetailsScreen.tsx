@@ -6,18 +6,18 @@ import {
   Text,
   View,
 } from 'react-native';
+import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ProductDetailsScreenProps } from '@/constants/types/ProductTypes';
 import { config } from '@/src/config/config';
 import { colors, sizes } from '@/src/resources/constants';
-import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated';
 import { Header } from '../header/Header';
 
 export const ProductDetailsScreen = ({ route }: ProductDetailsScreenProps) => {
   return (
     <SafeAreaView>
-      <Header />
+      <Header route={''} navigation={''} />
       <ScrollView style={styles.container}>
         <View style={styles.imageContainer}>
           <Image
