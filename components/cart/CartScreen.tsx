@@ -3,19 +3,25 @@ import {
   Dimensions,
   FlatList,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { ProductItemProps } from '@/constants/types/ProductTypes';
 import { StoreContext } from '@/src/context/storeContext';
 import { colors, sizes } from '@/src/resources/constants';
 import { Header } from '../header/Header';
 import { ProductInCart } from './ProductInCart';
 
-export const CartScreen = () => {
+export const CartScreen = ({ item, navigation }: ProductItemProps) => {
   const { cart, cartPrice } = useContext(StoreContext);
+
+  const handleNavigate = () => {
+    navigation.navigate('Checkout');
+  };
   return (
     <SafeAreaView>
       <Header route={''} navigation={''} />
@@ -28,6 +34,13 @@ export const CartScreen = () => {
         <Text style={styles.resumeText}>Total</Text>
         <Text style={styles.resumePrice}>$ {cartPrice}</Text>
       </View>
+      <Pressable
+        disabled={!(cart.length > 0)}
+        style={styles.buttonCheckout}
+        onPress={handleNavigate}
+      >
+        <Text style={styles.textCheckout}> Checkout </Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
