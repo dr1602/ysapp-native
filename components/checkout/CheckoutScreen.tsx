@@ -1,8 +1,9 @@
 import { Picker } from '@react-native-picker/picker';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Dimensions,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -11,8 +12,9 @@ import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { config } from '@/src/config/config';
+import { StoreContext } from '@/src/context/storeContext';
 import { colors, sizes } from '@/src/resources/constants';
-import { get } from '@/src/services/apis/apiActions';
+import { get, post } from '@/src/services/apis/apiActions';
 import { Header } from '../header/Header';
 
 type CheckoutStateType = {
@@ -20,6 +22,7 @@ type CheckoutStateType = {
   name: string;
   email: string;
   currentPG: undefined | string;
+  message: undefined | string;
 };
 
 const initialState = {
@@ -27,11 +30,14 @@ const initialState = {
   name: '',
   email: '',
   currentPG: undefined,
+  message: undefined,
 };
 
 export const CheckoutScreen = () => {
   const [checkoutState, setCheckoutState] =
     useState<CheckoutStateType>(initialState);
+
+  const { cart } = useContext(StoreContext);
 
   const handleChangeName = (data: string) => {
     setCheckoutState((prev) => ({
@@ -68,6 +74,31 @@ export const CheckoutScreen = () => {
     }));
   };
 
+  const handleSubmitPayment = async () => {
+    const lineItems = cart.map((prod) => {
+      return {
+        product_id: prod.id,
+        quantity: 1,
+      };
+    });
+
+    const paymentData = {
+      payment_method: checkoutState.currentPG,
+      billing: {
+        first_name: checkoutState.name,
+        email: checkoutState.email,
+      },
+      line_items: lineItems,
+    };
+
+    const registerPayment = await post(
+      `${config.siteUrl}orders?${config.wcCredentials}`,
+      paymentData
+    );
+
+    registerPayment()
+  };
+
   useEffect(() => {
     fetchPaymentGateways();
   }, []);
@@ -98,6 +129,12 @@ export const CheckoutScreen = () => {
             <Picker.Item key={pg.id} label={pg.title} value={pg.id} />
           ))}
         </Picker>
+        <Pressable
+          style={styles.buttonBuyContainer}
+          onPress={handleSubmitPayment}
+        >
+          <Text style={styles.textBuy}> Buy </Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
